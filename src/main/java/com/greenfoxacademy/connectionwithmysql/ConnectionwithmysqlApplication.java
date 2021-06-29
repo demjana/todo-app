@@ -27,17 +27,15 @@ public class ConnectionwithmysqlApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    todoRepository.save(new Todo("wake up at least once a day", "personal", "basic", false, true));
-    todoRepository.save(new Todo("eat and drink occasionally", "personal", "easy", false, true));
-    todoRepository.save(new Todo("wear clothes to work", "business", "easy", false, false));
-    todoRepository.save(new Todo("email mom", "business", "hard", false, false));
-    todoRepository.save(new Todo("stuff", "business", "basic", true, true));
-    todoRepository.save(new Todo("be awesome", "personal", "hard", false, false));
-    todoRepository.save(new Todo("go to sleep at least once a day", "personal", "basic", true, false));
+    todoRepository.save(new Todo("Morning walk", "personal", "hard", false, true));
+    todoRepository.save(new Todo("Buy milk", "personal", "easy", true, true));
+    todoRepository.save(new Todo("Pay bills", "business", "basic", true, true));
+    todoRepository.save(new Todo("Feed the dog", "personal", "easy", false, false));
+    todoRepository.save(new Todo("Work out", "personal", "hard", false, false));
+    todoRepository.save(new Todo("Business dinner", "business", "basic", true, false));
+    todoRepository.save(new Todo("Read a book", "personal", "easy", false, false));
     assigneeRepository.save(new Assignee("John Doe", "jhon.doe@gmail.com"));
-    assigneeRepository.save(new Assignee("John Martin", "johnmartin@gmail.com"));
-    assigneeRepository.save(new Assignee("Jane Doe", "jane_doe@hotmail.com"));
-    assigneeRepository.save(new Assignee("Bill Waits", "bill.waits@freemail.com"));
+    assigneeRepository.save(new Assignee("Jane Doe", "jane_doe@gmail.com"));
   }
 }
 
