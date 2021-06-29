@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap"
+          rel="stylesheet">
+    <title>Edit Todo</title>
+    <link rel="icon" href=
+            "https://pngimage.net/wp-content/uploads/2018/06/leaf-png-icon-6.png"
+          type="image/x-icon">
+</head>
+<body>
+<main>
+    <form th:object="${selectedTodo}"
+          th:action="@{'/edit'}" method="post">
+
+        <input type="hidden" th:field="*{id}" th:value="*{id}">
+
+        <h3>Edit Title:</h3>
+        <label for="title"></label>
+        <input id="title" type="text" th:field="*{title}" th:value="*{title}" required><br><br>
+
+        <label for="urgent">Urgent</label>
+        <input id="urgent" type="checkbox" th:field="*{urgent}" th:value="*{urgent}"><br>
+
+        <label for="done">Done</label>
+        <input id="done" type="checkbox" th:field="*{done}" th:value="*{done}"><br>
+
+        <h3>Edit Content:</h3>
+        <label for="personal">Personal</label>
+        <input id="personal" type="radio" th:field="*{content}" value="personal"><br>
+        <label for="business">Business</label>
+        <input id="business" type="radio" th:field="*{content}" value="business">
+
+        <h3>Edit Description:</h3>
+        <label for="easy">Easy</label>
+        <input id="easy" type="radio" th:field="*{description}" value="easy"><br>
+        <label for="basic">Basic</label>
+        <input id="basic" type="radio" th:field="*{description}" value="basic"><br>
+        <label for="hard">Hard</label>
+        <input id="hard" type="radio" th:field="*{description}" value="hard"><br><br>
+
+        <label for="dueDate">Edit Due date:</label>
+        <input id="dueDate" type="date" th:field="*{dueDate}" required><br><br>
+
+        <label for="selectedAssignee">Assignee:</label>
+        <select id="selectedAssignee" name="selectedAssigneeId">
+            <option th:each="assignee : ${assignees}" th:value="${assignee.id}"
+                    th:text="${assignee.name}"></option>
+        </select><br><br>
+
+        <button type="submit">EDIT</button>
+    </form>
+</main>
+<br>
+<a th:href="@{'/list'}">Cancel</a>
+</body>
+</html>

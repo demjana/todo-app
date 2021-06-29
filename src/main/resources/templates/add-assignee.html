@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap"
+          rel="stylesheet">
+    <title>Add new assignee</title>
+    <link rel="icon" href=
+            "https://pngimage.net/wp-content/uploads/2018/06/leaf-png-icon-6.png"
+          type="image/x-icon">
+</head>
+<body>
+<h1>Add new assignee</h1>
+<form th:object="${newAssignee}" th:action="@{'/add-assignee'}" th:method="post">
+
+    <label for="name">Name:</label>
+    <input id="name" type="text" th:field="*{name}" required/><br><br>
+
+    <label for="email">Email:</label>
+    <input id="email" type="email" th:field="*{email}"/><br><br>
+
+    <button type="submit">ADD NEW ASSIGNEE</button>
+</form>
+    <br>
+<a th:href="@{'/list'}">Cancel</a>
+</body>
+</html>

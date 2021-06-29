@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap"
+          rel="stylesheet">
+    <title>List of Assignee</title>
+    <link rel="icon" href=
+            "https://pngimage.net/wp-content/uploads/2018/06/leaf-png-icon-6.png"
+          type="image/x-icon">
+</head>
+<body>
+<h1>List of Assignee</h1>
+
+<a th:href="@{'/add-assignee'}">ADD NEW ASSIGNEE</a><br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>EMAIL</th>
+        <th>DELETE</th>
+        <th>EDIT</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="assignee : ${assignees}" th:object="${assignee}">
+
+        <td th:text="*{id}"></td>
+
+        <td>
+           <a th:href="@{|/${assignee.id}/details-assignee|}" th:text="*{name}"></a></td>
+
+        <td th:text="*{email}"></td>
+
+       <td><a th:href="@{|/${assignee.id}/delete-assignee|}">Delete</a></td>
+
+        <td><a th:href="@{|/${assignee.id}/edit-assignee|}">Edit</a></td>
+    </tr>
+    </tbody>
+</table><br>
+<a th:href="@{'/list'}">Go back Todos</a>
+</body>
+</html>

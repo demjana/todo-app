@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap"
+          rel="stylesheet">
+    <title>Todo CRUD App</title>
+    <link rel="icon" href=
+            "https://pngimage.net/wp-content/uploads/2018/06/leaf-png-icon-6.png"
+          type="image/x-icon">
+</head>
+<body>
+
+<h1>TODO APP.</h1>
+<header>
+<a th:href="@{'/add'}">Add new todo</a>
+<a th:href="@{'/list?isActive=true'}">Active Todos</a>
+<a th:href="@{'/list?isActive=false'}">Completed Todos</a>
+<a th:href="@{'/list'}">All Todos</a>
+<a th:href="@{'/assignee'}">List of Assignee</a>
+</header>
+
+<div class="search-bar">
+    <form th:action="@{'/search'}" th:method="get">
+        <label for="searchInput">Search for:</label>
+        <input type="text" id="searchInput" name="searchInput" th:value="${searchInput}">
+        <button type="submit" name="searchButton" value="search-by-title">by Title</button>
+        <button type="submit" name="searchButton" value="search-by-content">by Content</button>
+        <button type="submit" name="searchButton" value="search-by-description">by Description</button>
+        <button type="submit" name="searchButton" value="search-by-assignee">by Assignee</button>
+        <button type="submit" name="searchButton" value="show-all">Show All</button>
+    </form><br>
+    <form action="/search-by-date" method="get">
+        <label for="searchInput">Search for:</label>
+        <input type="date" name="date" th:value="${date}" required>
+        <button type="submit" name="searchButton" value="date-of-creation">By date of creation</button>
+        <button type="submit" name="searchButton" value="due-date">By due date</button><br><br>
+        <label for="before">Before</label>
+        <input type="radio" id="before" name="when" value="before">
+        <label for="on-that-day">On that day</label>
+        <input type="radio" id="on-that-day" name="when" value="on-that-day" checked>
+        <label for="after">After</label>
+        <input type="radio" id="after" name="when" value="after">
+    </form>
+</div>
+
+
+<main>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>TITLE</th>
+            <th>CONTENT</th>
+            <th>DESCRIPTION</th>
+            <th>URGENT</th>
+            <th>DONE</th>
+            <th>DATE OF CREATION</th>
+            <th>DUE DATE</th>
+            <th>ASSIGNEE</th>
+            <th>DELETE</th>
+            <th>EDIT</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo : ${todos}" th:object="${todo}">
+            <td th:text="*{id}"></td>
+
+            <td><a th:href="@{|/${todo.id}/details|}" th:text="*{title}"></a></td>
+
+            <td th:text="*{content}"></td>
+            <td th:text="*{description}"></td>
+            <td th:text="*{urgent}"></td>
+            <td th:text="*{done}"></td>
+            <td th:text="*{dateOfCreation}"></td>
+            <td th:text="*{dueDate} != null ? *{dueDate} : 'n/a'"></td>
+
+            <td th:text="${todo.assignee} != null ? ${todo.assignee.name} : 'n/a'"></td>
+
+            <td><a th:href="@{|/${todo.id}/delete|}">Delete</a></td>
+            <td><a th:href="@{|/${todo.id}/edit|}">Edit</a></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
+
