@@ -1,4 +1,4 @@
-package com.greenfoxacademy.connectionwithmysql.model;
+package com.greenfoxacademy.connectionwithmysql.models;
 
 import java.util.Date;
 import javax.persistence.Entity;

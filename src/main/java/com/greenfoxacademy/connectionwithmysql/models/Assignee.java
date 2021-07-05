@@ -1,4 +1,4 @@
-package com.greenfoxacademy.connectionwithmysql.model;
+package com.greenfoxacademy.connectionwithmysql.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Assignee {
   private String name;
   private String email;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL ,mappedBy = "assignee")
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "assignee")
   private List<Todo> todo;
 
   public Assignee() {

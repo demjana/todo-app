@@ -1,9 +1,9 @@
 package com.greenfoxacademy.connectionwithmysql;
 
-import com.greenfoxacademy.connectionwithmysql.model.Assignee;
-import com.greenfoxacademy.connectionwithmysql.model.Todo;
-import com.greenfoxacademy.connectionwithmysql.repository.AssigneeRepository;
-import com.greenfoxacademy.connectionwithmysql.repository.TodoRepository;
+import com.greenfoxacademy.connectionwithmysql.models.Assignee;
+import com.greenfoxacademy.connectionwithmysql.models.Todo;
+import com.greenfoxacademy.connectionwithmysql.repositories.AssigneeRepository;
+import com.greenfoxacademy.connectionwithmysql.repositories.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -38,4 +38,3 @@ public class ConnectionwithmysqlApplication implements CommandLineRunner {
     assigneeRepository.save(new Assignee("Jane Doe", "jane_doe@gmail.com"));
   }
 }
-

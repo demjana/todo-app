@@ -1,8 +1,8 @@
-package com.greenfoxacademy.connectionwithmysql.service;
+package com.greenfoxacademy.connectionwithmysql.services;
 
-import com.greenfoxacademy.connectionwithmysql.model.Assignee;
-import com.greenfoxacademy.connectionwithmysql.model.Todo;
-import com.greenfoxacademy.connectionwithmysql.repository.TodoRepository;
+import com.greenfoxacademy.connectionwithmysql.models.Assignee;
+import com.greenfoxacademy.connectionwithmysql.models.Todo;
+import com.greenfoxacademy.connectionwithmysql.repositories.TodoRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,16 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TodoService {
-  TodoRepository todoRepository;
-  AssigneeService assigneeService;
+public class TodoServiceImpl implements TodoService {
+
+  private final TodoRepository todoRepository;
+  private final AssigneeServiceImpl assigneeServiceImpl;
 
   @Autowired
-  public TodoService(TodoRepository todoRepository, AssigneeService assigneeService) {
+  public TodoServiceImpl(TodoRepository todoRepository, AssigneeServiceImpl assigneeServiceImpl) {
     this.todoRepository = todoRepository;
-    this.assigneeService = assigneeService;
+    this.assigneeServiceImpl = assigneeServiceImpl;
   }
 
+  @Override
   public Iterable<Todo> findAll() {
     return todoRepository.findAll();
   }
@@ -39,8 +41,9 @@ public class TodoService {
     }
   }
 
+  @Override
   public void addNewTodo(Todo todo, Long assigneeID) {
-    Assignee assignee = assigneeService.findById(assigneeID);
+    Assignee assignee = assigneeServiceImpl.findById(assigneeID);
     todo.setAssignee(assignee);
     List<Todo> assigneeTodos = new ArrayList<>();
     assigneeTodos.add(todo);
@@ -48,13 +51,13 @@ public class TodoService {
     todoRepository.save(todo);
   }
 
+  @Override
   public void deleteTodoById(long id) {
     Optional<Todo> deletedTodo = todoRepository.findById(id);
-    if (deletedTodo.isPresent()) {
-      todoRepository.delete(deletedTodo.get());
-    }
+    deletedTodo.ifPresent(todoRepository::delete);
   }
 
+  @Override
   public Todo findById(long id) {
     Todo todo = new Todo();
     Optional<Todo> selectedTodo = todoRepository.findById(id);
@@ -64,17 +67,19 @@ public class TodoService {
     return todo;
   }
 
+  @Override
   public void updateTodo(Todo todo, Long selectedAssigneeID) {
-    Assignee assignee = assigneeService.findById(selectedAssigneeID);
+    Assignee assignee = assigneeServiceImpl.findById(selectedAssigneeID);
     todo.setAssignee(assignee);
     todoRepository.findById(todo.getId()).ifPresent(date -> todo.setDateOfCreation(date.getDateOfCreation()));
     List<Todo> assigneeTodos = new ArrayList<>();
     assigneeTodos.add(todo);
     assignee.setTodo(assigneeTodos);
-    assigneeService.saveAssignee(assignee);
+    assigneeServiceImpl.saveAssignee(assignee);
     todoRepository.save(todo);
   }
 
+  @Override
   public List<Todo> getSearchedTodo(String searchButton, String searchInput) {
     switch (searchButton) {
       case "search-by-title":
@@ -91,12 +96,13 @@ public class TodoService {
     return null;
   }
 
+  @Override
   public List<Todo> searchByDate(String date, String searchButton, String when) {
-    DateTimeComparator dateTimeComparator = DateTimeComparator.getDateOnlyInstance(); // Compare to Date ->
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");          // without hours and minutes.
+    DateTimeComparator dateTimeComparator = DateTimeComparator.getDateOnlyInstance();
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     List<Todo> todos = (List<Todo>) todoRepository.findAll();
     try {
-      Date convertedDate = formatter.parse(date); // Convert input String "date" to Date
+      Date convertedDate = formatter.parse(date);
       if (searchButton.equalsIgnoreCase("date-of-creation")) {
         if (when.equalsIgnoreCase("before")) {
           todos = todos.stream().filter(t -> dateTimeComparator
@@ -127,5 +133,14 @@ public class TodoService {
     }
     return todos;
   }
-}
 
+  @Override
+  public boolean isTodoExist(Long id) {
+    return todoRepository.findById(id).isPresent();
+  }
+
+  @Override
+  public Todo getTodoById(Long id) {
+    return todoRepository.findById(id).orElse(null);
+  }
+}
