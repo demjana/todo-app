@@ -9,6 +9,7 @@
 - Hibernate
 - Thymeleaf
 - Heroku
+- Integration test for Api controller
 
 #### ✔️ Among other things you can add new todo
 
